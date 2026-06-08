@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Casino Engine</title>
+                <style>
+                        body { font-family: sans-serif; text-align: center; padding: 50px; }
+                                #result { font-size: 2rem; margin-top: 20px; font-weight: bold; }
+                                    </style>
+                                    </head>
+                                    <body>
+
+                                        <h1>Dice Game</h1>
+                                            <p>Roll under: <input type="number" id="target" value="50"></p>
+                                                <button onclick="placeWager()">Place Wager</button>
+                                                    
+                                                        <div id="result">Result will appear here...</div>
+
+                                                            <script>
+                                                                    async function placeWager() {
+                                                                                const target = document.getElementById('target').value;
+                                                                                            const resultDiv = document.getElementById('result');
+
+                                                                                                        try {
+                                                                                                                        // This sends the data to your Node.js backend
+                                                                                                                                        const response = await fetch('/api/games/dice/wager', {
+                                                                                                                                                            method: 'POST',
+                                                                                                                                                                                headers: { 'Content-Type': 'application/json' },
+                                                                                                                                                                                                    body: JSON.stringify({ rollUnderTarget: target })
+                                                                                                                                                                                                                    });
+
+                                                                                                                                                                                                                                    const data = await response.json();
+                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                    // Show the result from your server
+                                                                                                                                                                                                                                                                                    resultDiv.innerText = data.win 
+                                                                                                                                                                                                                                                                                                        ? `Win! Rolled: ${data.rollResult}` 
+                                                                                                                                                                                                                                                                                                                            : `Loss! Rolled: ${data.rollResult}`;
+                                                                                                                                                                                                                                                                                                                                        } catch (err) {
+                                                                                                                                                                                                                                                                                                                                                        resultDiv.innerText = "Error connecting to server.";
+                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                                                                                                                </script>
+                                                                                                                                                                                                                                                                                                                                                                                </body>
+                                                                                                                                                                                                                                                                                                                                                                                </html>
+                                                                                                                                                                                                                                                                                                                                                                                
